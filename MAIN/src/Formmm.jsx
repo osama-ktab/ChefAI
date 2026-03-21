@@ -2,7 +2,7 @@ import React from "react";
 import IngredientsListItems from "./ingredientsListItems";
 import Recipe from "./Recipe";
 
-function Form() {
+export default function Form() {
   const [ingredients, setIngredients] = React.useState([]);
   const [recipeShown, setRecipeShown] = React.useState(false);
 
@@ -51,5 +51,3 @@ function Form() {
     </main>
   );
 }
-
-export default Form;
