@@ -1,6 +1,15 @@
 import React from "react";
 import { getRecipeFromMistral } from "./ai";
 
+function cleanMarkdownText(text) {
+  return String(text)
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/__(.*?)__/g, "$1")
+    .replace(/\*\*/g, "")
+    .replace(/__/g, "")
+    .trim();
+}
+
 function parseRecipeMarkdown(text) {
   const lines = text.split("\n");
   const blocks = [];
@@ -17,7 +26,7 @@ function parseRecipeMarkdown(text) {
     if (/^\*\*(.+)\*\*$/.test(line)) {
       blocks.push({
         type: "h2",
-        content: line.replace(/^\*\*(.+)\*\*$/, "$1").trim(),
+        content: cleanMarkdownText(line),
       });
       i += 1;
       continue;
@@ -27,7 +36,7 @@ function parseRecipeMarkdown(text) {
       const level = Math.min(6, (line.match(/^#+/)?.[0]?.length ?? 1) + 1);
       blocks.push({
         type: `h${level}`,
-        content: line.replace(/^#{1,6}\s+/, "").trim(),
+        content: cleanMarkdownText(line.replace(/^#{1,6}\s+/, "")),
       });
       i += 1;
       continue;
@@ -36,7 +45,7 @@ function parseRecipeMarkdown(text) {
     if (/^[-*]\s+/.test(line)) {
       const items = [];
       while (i < lines.length && /^[-*]\s+/.test(lines[i].trim())) {
-        items.push(lines[i].trim().replace(/^[-*]\s+/, ""));
+        items.push(cleanMarkdownText(lines[i].trim().replace(/^[-*]\s+/, "")));
         i += 1;
       }
       blocks.push({ type: "ul", items });
@@ -46,7 +55,7 @@ function parseRecipeMarkdown(text) {
     if (/^\d+\.\s+/.test(line)) {
       const items = [];
       while (i < lines.length && /^\d+\.\s+/.test(lines[i].trim())) {
-        items.push(lines[i].trim().replace(/^\d+\.\s+/, ""));
+        items.push(cleanMarkdownText(lines[i].trim().replace(/^\d+\.\s+/, "")));
         i += 1;
       }
       blocks.push({ type: "ol", items });
@@ -64,10 +73,10 @@ function parseRecipeMarkdown(text) {
       ) {
         break;
       }
-      paragraph.push(currentLine);
+      paragraph.push(cleanMarkdownText(currentLine));
       i += 1;
     }
-    blocks.push({ type: "p", content: paragraph.join(" ") });
+    blocks.push({ type: "p", content: cleanMarkdownText(paragraph.join(" ")) });
   }
 
   return blocks;
