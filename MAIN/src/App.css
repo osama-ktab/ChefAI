@@ -1,10 +1,16 @@
 #root {
-  max-width: 1280px;
-  /* margin: 0 auto;
-  padding: 2rem;
-  text-align: center; */
+  box-sizing: border-box;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 .logo {
@@ -58,27 +64,29 @@ header > p {
 
 .add-ingredient-form {
   display: flex;
-  gap: 20px;
-  margin: 15px;
+  gap: 1rem;
+  margin: 1rem auto;
   justify-content: center;
   align-items: center;
+  width: clamp(320px, 60%, 760px);
 }
 
 .add-ingredient-form > input {
   border-radius: 7px;
   border: 1px solid #1a1a1a;
   background-color: white;
-  min-width: 150px;
-  max-width: 400px;
-  padding: 9px 13px;
+  padding: 0.6rem 0.9rem;
   color: #1a1a1a;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: large;
 }
 
 .add-ingredient-form > button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
-  font-size: 0.875rem;
+  font-size: large;
   font-weight: 500;
   font-family: Inter, sans-serif;
   background-color: #1a1a1a;
@@ -109,18 +117,138 @@ section ul {
 .ingredients-list {
   list-style: disc;
   padding-left: 1.25rem;
-  margin: 12px 0;
-  max-width: 600px;
+  margin: 12px auto;
+  max-width: clamp(260px, 70%, 720px);
+  width: 100%;
 }
 
 .ingredients-list li {
-  padding: 8px 0;
+  padding: clamp(0.5rem, 1vw, 0.85rem) 0;
   border-bottom: 1px solid #f0f0f0;
   color: #111;
+  font-size: clamp(1rem, 1.05vw, 1.125rem);
+  font-size: larger;
 }
 
 .ingredients-list li:last-child {
   border-bottom: none;
+}
+
+/* New: ingredient item layout and remove button */
+.ingredient-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.remove-ingredient-btn {
+  background: #de4848; /* red */
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+  font-weight: 600;
+  min-width: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1px;
+}
+
+.remove-ingredient-btn:hover {
+  background: #c33b3b;
+}
+
+.get-recipe-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: antiquewhite;
+  border-radius: 15px;
+  padding: 0.75rem 1rem;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.get-recipe-container > div:first-child {
+  min-width: 180px;
+  flex: 1 1 220px;
+}
+
+.get-recipe-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex: 0 1 auto;
+}
+
+.get-recipe-actions > button {
+  background: #de4848;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 0 0.6rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  height: 44px;
+  font-size: 0.95rem;
+}
+
+.get-recipe-actions > .rewrite-btn {
+  background: #1a1a1a;
+}
+
+.get-recipe-actions > button::before {
+  content: none;
+}
+
+@media (max-width: 900px) {
+  .add-ingredient-form {
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0 1rem;
+  }
+
+  .add-ingredient-form > input {
+    width: 100%;
+    max-width: none;
+  }
+
+  .ingredients-list {
+    padding-left: 1rem;
+  }
+
+  .ingredient-item {
+    gap: 8px;
+  }
+
+  .get-recipe-container {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .get-recipe-actions {
+    justify-content: center;
+  }
+
+  .get-recipe-actions > button {
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+  }
+}
+
+@media (min-width: 901px) {
+  .add-ingredient-form {
+    width: 70%;
+  }
 }
 
 section h3 {
@@ -130,27 +258,6 @@ section h3 {
 
 section p {
   color: rgb(81, 81, 81);
-}
-
-section .get-recipe-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  background-color: antiquewhite;
-  border-radius: 15px;
-  padding: 12px 18px;
-  gap: 20px;
-}
-
-section .get-recipe-container button {
-  background: #de4848;
-  color: #fff; /* make text visible */
-  border: none;
-  border-radius: 8px;
-  font-weight: 400;
-  max-width: 130px;
-  padding: 10px 14px;
-  cursor: pointer;
 }
 
 /* Suggested recipe article styles */
@@ -230,130 +337,3 @@ section .get-recipe-container button {
     font-size: 1.2rem;
   }
 }
-
-/* .counter {
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
-  background-color: #1a1a1a;
-}
-
-.plus {
-  border-radius: 50%;
-  position: absolute;
-  top: 45px;
-  left: 45px;
-  background-color: green;
-}
-
-.minus {
-  border-radius: 50%;
-  position: absolute;
-  top: 45px;
-  right: 45px;
-  background-color: red;
-}
-
-.parent {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.div {
-  color: #1a1a1a;
-}
-
-.par {
-  display: flex;
-  background-color: aquamarine;
-  border-radius: 10px;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  padding: 20px;
-  width: fit-content;
-}
-
-/* input {
-  border: none;
-  width: 100%;
-  font-size: 20px;
-  padding: 15px;
-  border-radius: 10px;
-} */
-
-/* .buttons {
-  display: flex;
-  padding: 10px;
-  gap: 10px;
-}
-
-.buttons button {
-  background-color: cadetblue;
-  padding: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: center;
-}
-
-.par .res {
-  background-color: white;
-  text-align: center;
-  width: 100%;
-  border-radius: 10px;
-  padding: 10px;
-  font-size: large;
-  color: rebeccapurple;
-}
-
-.par .res span span {
-  font-weight: bold;
-  color: rebeccapurple;
-}
-
-.par .res span keys {
-  display: flex;
-  gap: 20px;
-}
-
-.todo {
-  display: flex;
-  justify-content: space-around;
-  align-items: baseline;
-  margin: 20px;
-}
-
-.todo input {
-  border: none;
-  width: 100%;
-  font-size: 20px;
-  padding: 15px;
-  border-radius: 10px;
-}
-
-.add {
-  background-color: cadetblue;
-  padding: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: center;
-}
-
-.th p {
-  color: black;
-} */
-
-/* * {
-  box-sizing: border-box;
-}
-
-body {
-  background-color: #1c1917;
-}
-
-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */

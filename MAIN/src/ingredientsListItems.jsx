@@ -1,6 +1,17 @@
 function IngredientsListItems(props) {
   const ingredientsListItems = props.ingredients.map((ingredient) => (
-    <li key={ingredient}>{ingredient}</li>
+    <li key={ingredient} className="ingredient-item">
+      <span className="ingredient-text">{ingredient}</span>
+      <button
+        type="button"
+        className="remove-ingredient-btn"
+        aria-label={`Remove ${ingredient}`}
+        onClick={() =>
+          props.removeIngredient && props.removeIngredient(ingredient)
+        }>
+        ×
+      </button>
+    </li>
   ));
 
   return (
@@ -15,9 +26,17 @@ function IngredientsListItems(props) {
             <h3>Ready for a recipe?</h3>
             <p>Generate a recipe from your list of ingredients.</p>
           </div>
-          <button type="button" onClick={props.showRecipe}>
-            Get a recipe
-          </button>
+          <div className="get-recipe-actions">
+            <button type="button" onClick={props.showRecipe}>
+              Get a recipe
+            </button>
+            <button
+              type="button"
+              className="rewrite-btn"
+              onClick={props.clearIngredients}>
+              Rewrite ingredients
+            </button>
+          </div>
         </div>
       )}
     </section>

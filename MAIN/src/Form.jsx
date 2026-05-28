@@ -10,6 +10,15 @@ function Form() {
     setRecipeShown((prevShown) => !prevShown);
   }
 
+  function removeIngredient(ingredient) {
+    setIngredients((prev) => prev.filter((i) => i !== ingredient));
+  }
+
+  function clearIngredients() {
+    setIngredients([]);
+    setRecipeShown(false);
+  }
+
   function addIngredient(e) {
     e.preventDefault();
     const form = e.currentTarget;
@@ -44,6 +53,8 @@ function Form() {
         <IngredientsListItems
           ingredients={ingredients}
           showRecipe={showRecipe}
+          removeIngredient={removeIngredient}
+          clearIngredients={clearIngredients}
         />
       )}
 
